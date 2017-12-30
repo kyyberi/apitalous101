@@ -497,6 +497,38 @@
       }
     },
     "/images/{id}" : {
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates an image",
+        "operationId" : "updateImage",
+        "description" : "Updates an image to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      },
       "delete" : {
         "tags" : [ "authors" ],
         "summary" : "removes an image",
