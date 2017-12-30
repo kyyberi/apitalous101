@@ -147,7 +147,11 @@
           "409" : {
             "description" : "an existing item already exists"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       },
       "put" : {
         "tags" : [ "authors" ],
@@ -171,7 +175,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/chapters" : {
@@ -240,7 +248,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/chapters/{id}" : {
@@ -271,7 +283,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       },
       "delete" : {
         "tags" : [ "authors" ],
@@ -293,7 +309,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/authors" : {
@@ -365,7 +385,11 @@
           "409" : {
             "description" : "an existing authot already exists"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/authors/{id}" : {
@@ -396,7 +420,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       },
       "delete" : {
         "tags" : [ "authors" ],
@@ -418,7 +446,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/images" : {
@@ -490,7 +522,11 @@
           "409" : {
             "description" : "an existing image item already exists. Use UPDATE method to replace existing image."
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     },
     "/images/{id}" : {
@@ -521,7 +557,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       },
       "delete" : {
         "tags" : [ "authors" ],
@@ -543,7 +583,11 @@
           "400" : {
             "description" : "invalid input, object invalid"
           }
-        }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
       }
     }
   },
