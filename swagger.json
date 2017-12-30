@@ -3,7 +3,7 @@
   "info" : {
     "description" : "API-talous 101 on perusteos kaikille API-talouteen haikaileville organisaatioille. Kirja on kirjoitettu suomeksi. \n\nKirja on saatavilla normaaleja ja tunnettuja reittejä kuten kirjakaupoista kautta maan ja e-kirjana, mutta niiden lisäksi päätimme tarjota kirjan sisällön myös API:n kautta.   \n\n--------\n\n## Kirjan lukeminen API:n kautta\n\nKirjan lukeminen API:n kautta vaatii API- avaimen, jonka löydät API-hallinnan kautta. \n\n--------\n\n## Kirjoittajista ja hieman taustaa\n\n  Kirjan kirjoitti 4 eri API-talouden ammattilaista lähinnä iltapuhteena (ja osittain öisin) arkisen työn ohessa. Kirjan tarjoaminen tästä aiheesta API:na tuli mieleen eräänä iltana kirjoittajien pohtiessa kirjan kustantamista. Pakkohan tämä on tehdä API:ksi myös! Siitä se sitten lähti. \n  \n  Jarkko Moilanen teki API:n designin. Jotta API:n toteutus olisi huippuluokkaa, päätimme kutsua mukaan kaksi huipputason kovaa API-ammattilaista: Jani Karhusen ja Viljami Kuosmasen. \n\n  Lue lisää https://apitalous101.fi \n  \n-------\n  \n  ## Muutama esimerkki API:n käytöstä\n\n**Listaa kirjan luvut** \n\n`` \nGET /chapters\n``\n\n<pre>\ncurl -X GET https://apinf.io:3002/apitalous101/chapters \n  -H  \"accept: application/json\" \n  -H  \"X-API-Key: my-api-key\" \n  -H  \"content-type: application/json\" \n</pre>\n\n\n **Listaa kirjan kuvat** \n\n`` \nGET /images\n``\n\n<pre>\ncurl -X GET https://apinf.io:3002/apitalous101/images\n  -H  \"accept: application/json\" \n  -H  \"X-API-Key: my-api-key\" \n  -H  \"content-type: application/json\" \n</pre>\n",
     "version" : "1.0.0",
-    "title" : "API-talous 101 kirja REST API",
+    "title" : "API-talous 101 kirjan REST API",
     "contact" : {
       "email" : "jarkko@apinf.io"
     },
