@@ -91,13 +91,13 @@
     "/title" : {
       "get" : {
         "tags" : [ "readers" ],
-        "summary" : "searches inventory",
+        "summary" : "Get the book title",
         "operationId" : "searchTitle",
-        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "description" : "Get the book title. Simple as that, nothing less nothing more\n",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "search results matching criteria",
+            "description" : "requested book title",
             "schema" : {
               "type" : "array",
               "items" : {
@@ -141,26 +141,23 @@
         "tags" : [ "authors" ],
         "summary" : "updates a chapter",
         "operationId" : "updateTitle",
-        "description" : "Adds an item to the system",
+        "description" : "Updates a chapter to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
-          "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "name" : "chapter",
+          "description" : "Chapter to update",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
         } ],
         "responses" : {
-          "201" : {
-            "description" : "item created"
+          "200" : {
+            "description" : "item updated"
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       }
@@ -168,14 +165,14 @@
     "/chapters" : {
       "get" : {
         "tags" : [ "readers" ],
-        "summary" : "searches inventory",
-        "operationId" : "searchInventory",
-        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "summary" : "List and search chapters by title",
+        "operationId" : "searchChapters",
+        "description" : "List and search chapters by title. With paramaters you can limit the list length. With param 'q' you can search titles. \n",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "query",
-          "name" : "searchString",
-          "description" : "pass an optional search string for looking up inventory",
+          "name" : "q",
+          "description" : "pass an optional search string",
           "required" : false,
           "type" : "string"
         }, {
