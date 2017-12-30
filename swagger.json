@@ -16,7 +16,7 @@
     "name" : "readers",
     "description" : "Operations available to regular readers"
   }, {
-    "name" : "login/logout",
+    "name" : "authentication",
     "description" : "How to authenticate. For authors"
   }, {
     "name" : "authors",
@@ -25,7 +25,7 @@
   "paths" : {
     "/login" : {
       "post" : {
-        "tags" : [ "login/logout" ],
+        "tags" : [ "authentication" ],
         "summary" : "Logging in",
         "consumes" : [ "application/x-www-form-urlencoded" ],
         "description" : "### Logging in ###\n\nBy giving existing user account username and password you get login credentials,\nwhich you can use when authenticating requests.\n\nlogin response parameter value | to be filled into request header field\n:--- | :---\nauth-token-value | X-Auth-Token\nuser-id-value | X-User-Id\n",
@@ -61,7 +61,7 @@
     },
     "/logout" : {
       "post" : {
-        "tags" : [ "login/logout" ],
+        "tags" : [ "authentication" ],
         "summary" : "Logging out",
         "description" : "### Logging out ###\n\nThe login credentials must be filled in header of the message.\n\nlogin response parameter value | to be filled into request header field\n:--- | :---\nauth-token-value | X-Auth-Token\nuser-id-value | X-User-Id\n\nAfter logout the User has to do a *new log in* in order to be able to\nmake requests towards API endpoints.\n",
         "produces" : [ "application/json" ],
