@@ -124,7 +124,7 @@
       },
       "post" : {
         "tags" : [ "authors" ],
-        "summary" : "adds an inventory item",
+        "summary" : "adds book title item",
         "operationId" : "addTitle",
         "description" : "Adds an item to the system",
         "consumes" : [ "application/json" ],
@@ -155,9 +155,9 @@
       },
       "put" : {
         "tags" : [ "authors" ],
-        "summary" : "updates a chapter",
+        "summary" : "updates book title",
         "operationId" : "updateTitle",
-        "description" : "Updates a chapter to the system",
+        "description" : "Updates title to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -170,7 +170,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "item updated"
+            "description" : "book title item updated"
           },
           "400" : {
             "description" : "invalid input, object invalid"
@@ -435,7 +435,7 @@
         }, {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Chapter item to add",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
