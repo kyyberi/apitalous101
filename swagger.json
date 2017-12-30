@@ -1,0 +1,589 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API-talous 101 on perusteos kaikille API-talouteen haikaileville organisaatioille. Kirja on saatavilla normaaleja ja tunnettuja reittejä kuten kirjakaupat, mutta niiden lisäksi päätimme tarjota kirjan sisällön myös API:n kautta.   \n\n  Kirjan kirjoitti 4 eri API-talouden ammattilaista lähinnä iltapuhteena (ja osittain öisin) arkisen työn ohessa. Kirjan tarjoaminen tästä aiheesta API:na tuli mieleen eräänä iltana kirjoittajien pohtiessa kirjan kustantamista. Pakkohan tämä on tehdä API:ksi! Päätimme kutsua mukaan API:n toteutukseen kaksi kovaa API-ammattilaista: Jani Karhusen ja Viljami Kuosmasen. \n\n  Lue lisää https://apitalous101.fi \n  \n  -------\n  \n  ### Muutama esimerkki API:n käytöstä\n\n**Listaa kirjan luvut** \n\n`` \nGET /chapters\n``\n\n<pre>\ncurl -X GET https://apinf.io:3002/apitalous101/chapters \n  -H  \"accept: application/json\" \n  -H  \"X-API-Key: my-api-key\" \n  -H  \"content-type: application/json\" \n</pre>\n\n\n **Listaa kirjan kuvat** \n\n`` \nGET /images\n``\n\n<pre>\ncurl -X GET https://apinf.io:3002/apitalous101/images\n  -H  \"accept: application/json\" \n  -H  \"X-API-Key: my-api-key\" \n  -H  \"content-type: application/json\" \n</pre>\n",
+    "version" : "1.0.0",
+    "title" : "API-talous 101 kirja REST API",
+    "contact" : {
+      "email" : "jarkko@apinf.io"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "tags" : [ {
+    "name" : "readers",
+    "description" : "Operations available to regular readers"
+  }, {
+    "name" : "login/logout",
+    "description" : "How to authenticate. For authors"
+  }, {
+    "name" : "authors",
+    "description" : "Secured Author-only calls"
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "tags" : [ "login/logout" ],
+        "summary" : "Logging in",
+        "consumes" : [ "application/x-www-form-urlencoded" ],
+        "description" : "### Logging in ###\n\nBy giving existing user account username and password you get login credentials,\nwhich you can use when authenticating requests.\n\nlogin response parameter value | to be filled into request header field\n:--- | :---\nauth-token-value | X-Auth-Token\nuser-id-value | X-User-Id\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "formData",
+          "name" : "user",
+          "type" : "string",
+          "required" : true,
+          "description" : "User login data"
+        }, {
+          "in" : "formData",
+          "name" : "password",
+          "type" : "string",
+          "required" : true,
+          "description" : "Password for User"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/LoginResponse"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          }
+        }
+      }
+    },
+    "/logout" : {
+      "post" : {
+        "tags" : [ "login/logout" ],
+        "summary" : "Logging out",
+        "description" : "### Logging out ###\n\nThe login credentials must be filled in header of the message.\n\nlogin response parameter value | to be filled into request header field\n:--- | :---\nauth-token-value | X-Auth-Token\nuser-id-value | X-User-Id\n\nAfter logout the User has to do a *new log in* in order to be able to\nmake requests towards API endpoints.\n",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "You have been logged out",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "status" : {
+                  "type" : "string",
+                  "example" : "success"
+                },
+                "message" : {
+                  "type" : "string",
+                  "example" : "You have been logged out"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad request"
+          }
+        }
+      }
+    },
+    "/title" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "searches inventory",
+        "operationId" : "searchTitle",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds an inventory item",
+        "operationId" : "addTitle",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates a chapter",
+        "operationId" : "updateTitle",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/chapters" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "searches inventory",
+        "operationId" : "searchInventory",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "searchString",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "skip",
+          "description" : "number of records to skip for pagination",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "maximum number of records to return",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0,
+          "maximum" : 50
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds an inventory item",
+        "operationId" : "addChapter",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/chapters/{id}" : {
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates a chapter",
+        "operationId" : "updateInventory",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "authors" ],
+        "summary" : "removes a chapter",
+        "operationId" : "removeChapter",
+        "description" : "Removes a chapter from the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item removed"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        }
+      }
+    },
+    "/authors" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "searches inventory",
+        "operationId" : "searchAuthors",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "searchString",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "skip",
+          "description" : "number of records to skip for pagination",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "maximum number of records to return",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0,
+          "maximum" : 50
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds an inventory item",
+        "operationId" : "addAuthor",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/authors/{id}" : {
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates an author",
+        "operationId" : "updateAuthor",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        }, {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "authors" ],
+        "summary" : "removes an author",
+        "operationId" : "removeAuthor",
+        "description" : "Removes an author from the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/images" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "searches inventory",
+        "operationId" : "searchImages",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "searchString",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "skip",
+          "description" : "number of records to skip for pagination",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "maximum number of records to return",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0,
+          "maximum" : 50
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds an inventory item",
+        "operationId" : "addImage",
+        "description" : "Adds an item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Inventory item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    },
+    "/images/{id}" : {
+      "delete" : {
+        "tags" : [ "authors" ],
+        "summary" : "removes an image",
+        "operationId" : "removeImage",
+        "description" : "Removes an image from the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "id",
+          "type" : "integer",
+          "required" : true
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item removed"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "InventoryItem" : {
+      "type" : "object",
+      "required" : [ "id", "name", "manufacturer", "releaseDate" ],
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuid",
+          "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Widget Adapter"
+        },
+        "releaseDate" : {
+          "type" : "string",
+          "format" : "int32",
+          "example" : "2016-08-29T09:12:33.001Z"
+        },
+        "manufacturer" : {
+          "$ref" : "#/definitions/Manufacturer"
+        }
+      }
+    },
+    "Manufacturer" : {
+      "required" : [ "name" ],
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "example" : "ACME Corporation"
+        },
+        "homePage" : {
+          "type" : "string",
+          "format" : "url",
+          "example" : "https://www.acme-corp.com"
+        },
+        "phone" : {
+          "type" : "string",
+          "example" : "408-867-530"
+        }
+      }
+    },
+    "LoginResponse" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string",
+          "example" : "success"
+        },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "authToken" : {
+              "type" : "string",
+              "example" : "auth-token-value"
+            },
+            "userId" : {
+              "type" : "string",
+              "example" : "user-id-value"
+            }
+          }
+        }
+      }
+    }
+  }
+}
