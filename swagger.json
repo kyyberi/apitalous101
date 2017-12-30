@@ -351,9 +351,14 @@
         "tags" : [ "readers" ],
         "summary" : "List and search chapters by title",
         "operationId" : "searchChapters",
-        "description" : "List and search chapters by title. With paramaters you can limit the list length. With param 'q' you can search titles. \n",
+        "description" : "List and search chapters by title. With parameters you can limit the list length. With param **q** you can search titles. If you want the list to be in the same order as in printed book, use **forcePrintOrder** parameter.\n",
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "in" : "query",
+          "name" : "forcePrintOrder",
+          "description" : "the list will be in the order chapters have appeared in printed book.",
+          "type" : "boolean"
+        }, {
           "in" : "query",
           "name" : "q",
           "description" : "pass an optional search string",
