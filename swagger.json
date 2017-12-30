@@ -264,6 +264,88 @@
         } ]
       }
     },
+    "/acknowledgements" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "Get the book acknowledgements",
+        "operationId" : "searchacknowledgements",
+        "description" : "Get the book acknowledgements. Simple as that, nothing less nothing more\n",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "requested book acknowledgements",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds a acknowledgements item",
+        "operationId" : "addAcknowledgements",
+        "description" : "Adds acknowledgements item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Acknowledgements item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "acknowledgements item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing acknowledgements already exists. Use PUT method to update existing acknowledgements."
+          }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates acknowledgements",
+        "operationId" : "updateAcknowledgements",
+        "description" : "Updates acknowledgements to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "chapter",
+          "description" : "Acknowledgements to update",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "acknowledgements item updated"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
+      }
+    },
     "/chapters" : {
       "get" : {
         "tags" : [ "readers" ],
