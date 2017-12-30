@@ -208,15 +208,15 @@
       },
       "post" : {
         "tags" : [ "authors" ],
-        "summary" : "adds an inventory item",
+        "summary" : "adds a chapter",
         "operationId" : "addChapter",
-        "description" : "Adds an item to the system",
+        "description" : "Adds a chapter to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Chapter item to add",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
@@ -227,9 +227,6 @@
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       }
@@ -239,7 +236,7 @@
         "tags" : [ "authors" ],
         "summary" : "updates a chapter",
         "operationId" : "updateInventory",
-        "description" : "Adds an item to the system",
+        "description" : "Updates a chapter item to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -261,9 +258,6 @@
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       },
@@ -271,7 +265,7 @@
         "tags" : [ "authors" ],
         "summary" : "removes a chapter",
         "operationId" : "removeChapter",
-        "description" : "Removes a chapter from the system",
+        "description" : "Removes a chapter item from the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -293,14 +287,14 @@
     "/authors" : {
       "get" : {
         "tags" : [ "readers" ],
-        "summary" : "searches inventory",
+        "summary" : "list and searches book authors",
         "operationId" : "searchAuthors",
-        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "description" : "By passing in the appropriate options, you can search for\nauthors\n",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "query",
-          "name" : "searchString",
-          "description" : "pass an optional search string for looking up inventory",
+          "name" : "q",
+          "description" : "pass an optional search string",
           "required" : false,
           "type" : "string"
         }, {
@@ -336,28 +330,28 @@
       },
       "post" : {
         "tags" : [ "authors" ],
-        "summary" : "adds an inventory item",
+        "summary" : "adds an author item",
         "operationId" : "addAuthor",
-        "description" : "Adds an item to the system",
+        "description" : "Adds an author item to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Author item to add",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
         } ],
         "responses" : {
           "201" : {
-            "description" : "item created"
+            "description" : "author created"
           },
           "400" : {
             "description" : "invalid input, object invalid"
           },
           "409" : {
-            "description" : "an existing item already exists"
+            "description" : "an existing authot already exists"
           }
         }
       }
@@ -367,7 +361,7 @@
         "tags" : [ "authors" ],
         "summary" : "updates an author",
         "operationId" : "updateAuthor",
-        "description" : "Adds an item to the system",
+        "description" : "Updates a author item to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -378,20 +372,17 @@
         }, {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Author item to update",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
         } ],
         "responses" : {
-          "201" : {
-            "description" : "item created"
+          "200" : {
+            "description" : "author updated"
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       },
@@ -409,14 +400,11 @@
           "required" : true
         } ],
         "responses" : {
-          "201" : {
-            "description" : "item created"
+          "200" : {
+            "description" : "author removed"
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       }
