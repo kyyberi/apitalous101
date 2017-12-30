@@ -412,14 +412,14 @@
     "/images" : {
       "get" : {
         "tags" : [ "readers" ],
-        "summary" : "searches inventory",
+        "summary" : "search and list images",
         "operationId" : "searchImages",
-        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "description" : "By passing in the appropriate options, you can search for\navailable images in the system\n",
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "query",
-          "name" : "searchString",
-          "description" : "pass an optional search string for looking up inventory",
+          "name" : "q",
+          "description" : "pass an optional search string for looking up images",
           "required" : false,
           "type" : "string"
         }, {
@@ -455,28 +455,28 @@
       },
       "post" : {
         "tags" : [ "authors" ],
-        "summary" : "adds an inventory item",
+        "summary" : "adds an image item",
         "operationId" : "addImage",
-        "description" : "Adds an item to the system",
+        "description" : "Adds an image item to the system",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Image item to add",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
         } ],
         "responses" : {
           "201" : {
-            "description" : "item created"
+            "description" : "image item created"
           },
           "400" : {
             "description" : "invalid input, object invalid"
           },
           "409" : {
-            "description" : "an existing item already exists"
+            "description" : "an existing image item already exists. Use UPDATE method to replace existing image."
           }
         }
       }
@@ -497,20 +497,17 @@
         }, {
           "in" : "body",
           "name" : "inventoryItem",
-          "description" : "Inventory item to add",
+          "description" : "Image item to add",
           "schema" : {
             "$ref" : "#/definitions/InventoryItem"
           }
         } ],
         "responses" : {
           "201" : {
-            "description" : "item created"
+            "description" : "image item created"
           },
           "400" : {
             "description" : "invalid input, object invalid"
-          },
-          "409" : {
-            "description" : "an existing item already exists"
           }
         }
       },
@@ -529,7 +526,7 @@
         } ],
         "responses" : {
           "201" : {
-            "description" : "item removed"
+            "description" : "image item removed"
           },
           "400" : {
             "description" : "invalid input, object invalid"
