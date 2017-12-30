@@ -182,6 +182,88 @@
         } ]
       }
     },
+    "/prologue" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "Get the book prologue",
+        "operationId" : "searchPrologue",
+        "description" : "Get the book prologue. Simple as that, nothing less nothing more\n",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "requested book prologue",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/InventoryItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "authors" ],
+        "summary" : "adds a prologue item",
+        "operationId" : "addPrologue",
+        "description" : "Adds a prologue item to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "inventoryItem",
+          "description" : "Prologue item to add",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "prologue item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists. Use PUT method to update existing prologue."
+          }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "authors" ],
+        "summary" : "updates prologue",
+        "operationId" : "updatePrologue",
+        "description" : "Updates prologue to the system",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "chapter",
+          "description" : "Prologue to update",
+          "schema" : {
+            "$ref" : "#/definitions/InventoryItem"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "prologue item updated"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        },
+        "security" : [ {
+          "userSecurityToken" : [ ],
+          "userId" : [ ]
+        } ]
+      }
+    },
     "/chapters" : {
       "get" : {
         "tags" : [ "readers" ],
