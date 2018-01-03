@@ -183,6 +183,51 @@
         } ]
       }
     },
+    "/search" : {
+      "get" : {
+        "tags" : [ "readers" ],
+        "summary" : "Search content",
+        "operationId" : "searchContent",
+        "description" : "Search content with keywords. Limit the resultset for pagination or skip results. \n",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "q",
+          "description" : "pass a search string",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "skip",
+          "description" : "number of records to skip for pagination",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "maximum number of records to return",
+          "type" : "integer",
+          "format" : "int32",
+          "minimum" : 0,
+          "maximum" : 50
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/SearchResultItem"
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
     "/prologue" : {
       "get" : {
         "tags" : [ "readers" ],
@@ -762,6 +807,25 @@
     }
   },
   "definitions" : {
+    "SearchResultItem" : {
+      "type" : "object",
+      "required" : [ "chapterId", "chapterTitle", "snippet" ],
+      "properties" : {
+        "chapterId" : {
+          "type" : "string",
+          "format" : "uuid",
+          "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        },
+        "chapterTitle" : {
+          "type" : "string",
+          "example" : "API is a product"
+        },
+        "snippet" : {
+          "type" : "string",
+          "example" : "Just text with the search _keyword_ marked in the the sentence with a few words around it to see context where the search _keyword_ appears."
+        }
+      }
+    },
     "InventoryItem" : {
       "type" : "object",
       "required" : [ "id", "name", "manufacturer", "releaseDate" ],
