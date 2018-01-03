@@ -5,6 +5,7 @@
     "version" : "1.0.0",
     "title" : "API-talous 101 kirjan REST API",
     "contact" : {
+      "name" : "Jarkko Moilanen",
       "email" : "jarkko@apinf.io"
     },
     "license" : {
