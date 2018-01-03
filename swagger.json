@@ -809,7 +809,7 @@
   "definitions" : {
     "SearchResultItem" : {
       "type" : "object",
-      "required" : [ "chapterId", "chapterTitle", "snippet" ],
+      "required" : [ "chapterId", "chapterTitle", "snippet", "chapterLink", "paragraphLink" ],
       "properties" : {
         "chapterId" : {
           "type" : "string",
@@ -823,6 +823,14 @@
         "snippet" : {
           "type" : "string",
           "example" : "Just text with the search _keyword_ marked in the the sentence with a few words around it to see context where the search _keyword_ appears."
+        },
+        "chapterLink" : {
+          "type" : "string",
+          "example" : "https://apitalous101.fi/api/chapters/d290f1ee-6c54-4b01-90e6-d701748f0851"
+        },
+        "paragraphLink" : {
+          "type" : "string",
+          "example" : "https://apitalous101.fi/api/paragraphs/701748f0851"
         }
       }
     },
